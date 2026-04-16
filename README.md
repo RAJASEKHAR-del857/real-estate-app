@@ -1,10 +1,10 @@
-# SmartEstate – Full Stack Real Estate Platform
+# SmartEstate – Scalable Real Estate Platform
 
-SmartEstate is a full-stack web application designed to demonstrate end-to-end development of a real estate listing system. The application allows users to view property listings and interact with backend APIs through a modern frontend interface.
+SmartEstate is a full-stack web application designed to demonstrate production-level architecture for a real estate platform. It implements a structured backend, secure authentication, database integration, and a client-side application with routing and API communication.
 
 ## Overview
 
-The project is structured as a client-server application. The frontend is built using React with Vite for fast development, while the backend is implemented using Node.js and Express. Communication between the two layers is handled via REST APIs.
+The application follows a layered architecture separating routing, business logic, and data access. The backend exposes REST APIs, while the frontend consumes these APIs to render property listings and manage user sessions.
 
 ## Tech Stack
 
@@ -12,108 +12,156 @@ The project is structured as a client-server application. The frontend is built 
 
 * React.js
 * Vite
+* React Router
 * Axios
-* HTML, CSS, JavaScript
 
 **Backend**
 
 * Node.js
 * Express.js
-* CORS
+* MySQL (mysql2)
+* JSON Web Tokens (JWT)
 
 ## Project Structure
 
-```
-smartestate_fullstack/
+```id="2u8m7n"
+smartestate/
 │
 ├── frontend/
-│   ├── index.html
-│   ├── main.jsx
-│   ├── App.jsx
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── main.jsx
+│   │
+│   └── index.html
 │
 ├── backend/
-│   ├── server.js
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── validation/
+│   └── server.js
 │
 └── README.md
 ```
 
 ## Setup Instructions
 
-### Backend
+### 1. Database Setup
 
-Navigate to the backend directory and install dependencies:
+Open MySQL and execute the schema file:
 
+```id="x1n3fj"
+source backend/models/schema.sql;
 ```
+
+This will create:
+
+* `smartestate` database
+* `users` table
+* `properties` table
+
+---
+
+### 2. Backend Setup
+
+```id="pq93lm"
 cd backend
 npm init -y
-npm install express cors
+npm install express cors mysql2 jsonwebtoken
 node server.js
 ```
 
-The backend server will start on:
+Server runs on:
 
-```
+```id="5bnn7p"
 http://localhost:5000
 ```
 
-### Frontend
+---
 
-Navigate to the frontend directory and set up the Vite application:
+### 3. Frontend Setup
 
-```
+```id="8l5k3d"
 cd frontend
 npm create vite@latest
 npm install
-npm install axios react react-dom
+npm install axios react-router-dom
 npm run dev
 ```
 
-The frontend will be available at:
+Frontend runs on:
 
-```
+```id="x9sd2k"
 http://localhost:5173
 ```
 
+---
+
 ## API Endpoints
 
-### Get Properties
+### Authentication
 
-```
-GET /api/properties
-```
-
-Returns a list of available properties.
-
-### Login
-
-```
+```id="z6gk1m"
 POST /api/login
 ```
 
-Accepts a username and returns a mock authentication token.
+Returns a JWT token for authenticated access.
 
-## Functionality
+---
 
-* Fetches property data from the backend
-* Displays property listings in the UI
-* Demonstrates basic client-server interaction
-* Includes a simple login API for demonstration purposes
+### Properties
+
+```id="u5b8zt"
+GET /api/properties
+```
+
+Fetches all property listings from the database.
+
+---
+
+## Key Features
+
+* Layered backend architecture (routes → controllers → database)
+* MySQL integration with connection pooling
+* JWT-based authentication middleware
+* Input validation for API requests
+* Centralized error handling
+* Client-side routing using React Router
+* API abstraction using Axios
+
+---
+
+## Design Decisions
+
+* **Separation of Concerns**: Controllers handle logic, routes handle endpoints, and database configuration is isolated.
+* **Stateless Authentication**: JWT is used to avoid server-side session storage.
+* **Scalability**: Modular structure allows easy extension into services or microservices.
+* **Maintainability**: Code is organized for readability and future enhancements.
+
+---
 
 ## Limitations
 
-* Uses in-memory data storage (no database integration)
-* Authentication is not secure and intended only for demonstration
-* Minimal UI without advanced user interaction features
-* No deployment or production configuration included
+* Authentication is simplified and does not include password hashing
+* No role-based access control implemented
+* No pagination or filtering on property listings
+* UI is minimal and not optimized for production use
+
+---
 
 ## Future Improvements
 
-* Integrate a database such as MongoDB or MySQL
-* Implement secure authentication using JWT
-* Add advanced filtering and search capabilities
-* Improve frontend design and user experience
-* Introduce role-based access control
-* Add deployment configuration (Docker, cloud services)
+* Add password hashing (bcrypt)
+* Implement role-based authorization (admin/user)
+* Introduce pagination and filtering for properties
+* Improve frontend UI using a component library or Tailwind CSS
+* Add deployment configuration using Docker and cloud platforms
+
+---
 
 ## Author
 
@@ -121,7 +169,5 @@ Bommaka Rajasekhar Reddy
 GitHub: https://github.com/RAJASEKHAR-del857
 LinkedIn: https://linkedin.com/in/bommaka-rajasekhar-reddy
 
-## License
+---
 
-This project is intended for academic and demonstration purposes.
-**
